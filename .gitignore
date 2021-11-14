@@ -1,0 +1,9 @@
+.dll
+.exe
+
+Chromatek/bin
+Chromatek/obj
+Chromatek.Tests/bin
+Chromatek.Tests/obj
+
+.vs
