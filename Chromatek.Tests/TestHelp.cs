@@ -14,17 +14,17 @@ namespace test
         }
 
         [Test]
-        public void СalculateTransposition_Six()
+        public void СalculateTransposition_6()
         {
             IList<String> listString = Help.СalculateTransposition("abc".ToCharArray());
             Assert.AreEqual(listString.Count, 6);
         }
 
         [Test]
-        public void СalculateTransposition_Repeat_Six()
+        public void СalculateTransposition_Repeat_3()
         {
-            IList<String> listString = Help.СalculateTransposition("abcca".ToCharArray());
-            Assert.AreEqual(listString.Count, 6);
+            IList<String> listString = Help.СalculateTransposition("aab".ToCharArray());
+            Assert.AreEqual(listString.Count, 3);
         }
 
         [Test]

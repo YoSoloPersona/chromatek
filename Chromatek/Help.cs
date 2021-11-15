@@ -4,27 +4,14 @@ using System.Linq;
 
 namespace Chromatek
 {
-    public class Help 
-{
-    /// <summary>
-        /// Рекурсивный метод получения перестановки из списка символов.
+    public class Help
+    {
+        /// <summary>
+        /// Рекурсивный метод получения последовательности из списка символов.
         /// </summary>
         /// <param name="listChar">Входной список символов.</param>
         /// <returns>Возвращает список строк.</returns>
         public static IList<string> СalculateTransposition(IEnumerable<char> listChar)
-        {
-                // Через рекурсию получаем необходимые результаты
-                return Calculate(
-                    listChar.Distinct() // Оставляем уникальные символы
-                    );
-        }
-
-        /// <summary>
-        /// Рекурсивный метод.
-        /// </summary>
-        /// <param name="listChar"></param>
-        /// <returns></returns>
-        private static IList<string> Calculate(IEnumerable<char> listChar)
         {
             // Признак окончания рекурсии
             if (listChar.Count() == 0)
@@ -33,14 +20,15 @@ namespace Chromatek
             }
 
             // Проходим все символы
-            return listChar.Select(ch =>
-            {
-                // Убираем символ из множества и отдаём полученное множество на следующую рекурсию
-                return Calculate(listChar.Except(new char[] { ch }))
-                        // Получение строки
-                        .Select(str => ch + str);
-            }
-            )
+            return listChar
+                .Select((ch, index) => (Char: ch, Number: index))
+                .Distinct(new TupleComparer())
+                .Select(pair =>
+                {
+                    // Убираем символ из множества и отдаём полученное множество на следующую рекурсию
+                    return СalculateTransposition(listChar.Where((ch, index) => index != pair.Number))
+                            .Select(str => pair.Char + str); // Получение строки
+                })
                 // Деструктурируем список списков
                 .Aggregate(new List<String>(), (listAcc, listIn) =>
                 {
@@ -48,5 +36,12 @@ namespace Chromatek
                     return listAcc;
                 });
         }
-}
+
+        class TupleComparer : IEqualityComparer<(char Char, int Number)>
+        {
+            public bool Equals((char Char, int Number) b1, (char Char, int Number) b2) => b1.Char == b2.Char;
+
+            public int GetHashCode((char Char, int Number) bx) => bx.Char.GetHashCode();
+        }
+    }
 }

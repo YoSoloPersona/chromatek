@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Chromatek
 {
@@ -17,8 +18,10 @@ namespace Chromatek
     {
         static void Main(string[] args)
         {
+            string inLine = Console.ReadLine();
             // Считываем строку и получаем перестановки
-            IList<string> listString = Help.СalculateTransposition(Console.ReadLine());
+            IList<string> listString = Help.СalculateTransposition(inLine).Distinct().ToList();
+            Console.Clear();
 
             // Выводим результат в консоль
             foreach (string str in listString)
